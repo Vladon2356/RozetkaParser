@@ -17,3 +17,23 @@ Scripts steps :
 9. Click on new page on 'Тільки відмінності'
 10. End work
 
+# Setup
+
+1. Clone the repository
+    ```sh
+   git clone https://github.com/Vladon2356/RozetkaParser.git
+   cd RozetkaParser
+   ```
+2. Create virtual environments
+   ```sh
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. Install requirements
+   ```sh
+   pip install -r requirements.txt
+   ```
+4. Run script 
+   ```sh
+   python main.py
+   ```
