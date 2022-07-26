@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  selenium:
+    image: selenium/node-chrome
+    ports:
+      - 4444:4444
+    restart: always
+  app:
+    build: .
+    command: bash -c "python /app/main.py "
+    volumes:
+      - .:/app
+    depends_on:
+      - selenium
