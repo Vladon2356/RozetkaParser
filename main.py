@@ -1,5 +1,6 @@
 import time
 
+from loguru import logger
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -32,18 +33,22 @@ driver = webdriver.Chrome()
 driver.set_window_size(1920, 1080)
 try:
     driver.get(link)
+    logger.info(f'Get link - {link}')
     link = driver.find_element(
         By.XPATH,
         '//a[@class="menu-categories__link" and contains(text(), "Смартфони, ТВ і електроніка")]'
     )
     time.sleep(2)
-
     link.click()
+    logger.info(f'Click on category "Смартфони, ТВ і електроніка"')
+
     time.sleep(2)
     mobile = driver.find_element(by=By.XPATH, value='//ul[@class="portal-grid portal-grid_type_1_4"]//li'
                                                     '//a[contains(text(), "Мобільні телефони")]')
 
     mobile.click()
+    logger.info(f'Click on category "Мобільні телефони"')
+
     time.sleep(2)
 
     for key in filter_params:
@@ -69,10 +74,14 @@ try:
                 driver.find_element(By.XPATH,
                                     f'//a[@class="checkbox-filter__link" and contains(text(), "{item}")]').click()
             time.sleep(3)
+    logger.info(f'Filtered by params')
+
     time.sleep(2)
     sort_select = Select(driver.find_element(by=By.XPATH, value='//div[@class="catalog-settings"]//select'))
     driver.find_element(By.TAG_NAME, 'html').send_keys(Keys.PAGE_UP)
     sort_select.select_by_visible_text(sort_by)
+    logger.info(f'Sort by {sort_by}')
+
     result_products_list = driver.find_element(
         by=By.XPATH,
         value='//section[@class="content content_type_catalog"]//ul'
@@ -83,15 +92,23 @@ try:
             result_products_list[i].click()
         except IndexError:
             break
+    logger.info(f'Add to compare {count_to_compare} products')
 
     compare_list = driver.find_element(by=By.XPATH, value='//ul[@class="header-actions"]//li[5]//button')
     compare_list.click()
+
+    logger.info(f'Click on compare list')
+
     time.sleep(2)
     compare_page = driver.find_element(by=By.XPATH, value='//div[@class="modal__content"]//ul//li//a')
     compare_page.click()
+    logger.info(f'Get compare page')
+
     time.sleep(2)
     only_differences = driver.find_element(by=By.XPATH, value='//section//div[@class="comparison-settings"]//button')
     only_differences.click()
+
+    logger.info(f'Click on "Тільки відмінності"')
 
     time.sleep(2)
 except Exception as e:
